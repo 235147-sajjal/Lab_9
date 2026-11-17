@@ -1,0 +1,41 @@
+LAB 9 NOTES
+Name: Sajjal | ID: 235147
+
+TASK 1: Housing Prices Near Transit
+Slope: -0.7262
+Intercept: 45.8514
+Predicted price at 500 m: 42.22
+
+Explanation: The slope is negative, so price per unit area falls as distance
+from the MRT station increases. For each extra 100 m, the predicted price
+drops by about 0.73 units (about 7,300 NTD per ping). The intercept is the
+predicted price at 0 m from the station.
+
+TASK 2: Yacht Resistance
+Linear fold RMSEs: 8.16, 10.57, 9.84, 8.38, 7.78 | Mean: 8.95
+Quadratic fold RMSEs: 3.93, 4.59, 4.45, 4.49, 3.50 | Mean: 4.19
+
+Explanation: The quadratic model is better. Its mean RMSE (4.19) is less than
+half of the linear model's (8.95). Resistance does not grow in a straight
+line with Froude number, so a curve fits better.
+
+TASK 3: Concrete Strength
+After removing duplicates: 804 training rows, 201 test rows.
+Linear baseline mean CV RMSE: 10.20 MPa
+Best parameters: degree 3, alpha 0.1
+Top three settings:
+  1. degree 3, alpha 0.1  -> 6.09
+  2. degree 3, alpha 0.01 -> 6.16
+  3. degree 3, alpha 1    -> 6.27
+Test RMSE: 6.52 MPa
+Test MAE: 4.67 MPa
+
+(d) Comparison: The tuned model reduced mean CV RMSE from 10.20 to 6.09 MPa,
+so it predicts much better than the linear baseline.
+Example degree-2 interaction term: cement x water (the effect of cement
+depends on how much water is present).
+Scaling belongs inside the pipeline because the scaler must learn its mean
+and standard deviation only from the training folds in each CV round. If we
+scale before cross-validation, information from the validation fold leaks
+into training and the scores look better than they really are. Scaling is
+also needed for Ridge because its penalty treats all coefficients equally.
